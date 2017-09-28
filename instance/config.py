@@ -1,10 +1,13 @@
-import os
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import uuid
 
 
 class Config(object):
     DEBUG = False
     CSRF_ENABLED = True
-    SECRET = os.getenv('SECRET')
+    SECRET = uuid.uuid4().hex
 
 
 class DevelopmentConfig(Config):
@@ -26,6 +29,7 @@ class ProductionConfig(Config):
     """Configurations for Production."""
     DEBUG = False
     TESTING = False
+
 
 app_config = {
     'development': DevelopmentConfig,
