@@ -1,0 +1,10 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+from src import create_app
+
+config_name = 'development'
+app = create_app(config_name)
+
+if __name__ == '__main__':
+    app.run()
