@@ -2,9 +2,10 @@
 # -*- coding: utf-8 -*-
 
 from generatepom import PomXMLTemplate
-#  from instance.config import app_config
+from instance.config import app_config
 from flask import send_file, request, jsonify
 from flask_api import FlaskAPI
+from flask_cors import CORS, cross_origin
 
 
 MANIFEST_FILE = {
@@ -16,10 +17,13 @@ MANIFEST_FILE = {
 
 def create_app(config_name):
     app = FlaskAPI(__name__, instance_relative_config=True)
-    #  app.config.from_object(app_config[config_name])
-    #  app.config.from_pyfile('config.py')
+    app.config.from_object(app_config[config_name])
+    app.config.from_pyfile('config.py')
+    CORS(app)
+    app.config['CORS_HEADERS'] = 'Content-Type'
 
     @app.route('/generatefile/', methods=['POST', ])
+    @cross_origin()
     def generatefile():
         response = jsonify("{'a':'b'}")
         response.headers.add('Access-Control-Allow-Origin', '*')
