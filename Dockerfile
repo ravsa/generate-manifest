@@ -6,6 +6,6 @@ WORKDIR /app
 ADD ./fix-permissions.sh ./install.sh ./passwd.template ./run.sh /opt/scripts/
 RUN chmod -R 777 /opt/scripts && . /opt/scripts/install.sh
 EXPOSE 5000
-USER 1001
+USER python_user
 ENTRYPOINT ["/opt/scripts/run.sh"]
 CMD ["app"]
