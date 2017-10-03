@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from StringIO import StringIO
+#  from StringIO import StringIO
 from lxml import etree
+from uuid import uuid4
+import os
 
 
 class PomXMLTemplate(object):
@@ -66,6 +68,7 @@ class PomXMLTemplate(object):
                 etree.SubElement(dp, 'version').text = temp[2]
 
     def xml_file(self):
-        file = StringIO()
-        self.tree.write(file, encoding='utf-8', xml_declaration=True)
-        return file
+        path = os.path.join('/tmp', uuid4().hex)
+        with open(path, 'w') as file:
+            self.tree.write(file, encoding='utf-8', xml_declaration=True, pretty_print=True)
+        return path

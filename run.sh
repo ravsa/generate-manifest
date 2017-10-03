@@ -9,7 +9,7 @@ export NSS_WRAPPER_GROUP=/etc/group;
 export FLASK_APP="app.py"
 
 if [ $1 == "app" ]; then
-    exec flask run;
+    exec flask run -h 0.0.0.0 -p 5000;
 else
     exec $@
 fi

@@ -25,7 +25,38 @@ def create_app(config_name):
     @app.route('/generatefile', methods=['POST'])
     @cross_origin()
     def generatefile():
-        return send_file(PomXMLTemplate(dict(request.get_json())).xml_file(),
+        path = PomXMLTemplate(dict(request.get_json())).xml_file()
+        return send_file(path,
                          attachment_filename=MANIFEST_FILE['maven'],
                          as_attachment=True)
+
+    @app.route('/test', methods=['GET'])
+    def testing():
+        json_data = {
+            "ecosystem": "maven",
+            "framework": "springboot or null",
+            "version": "null or 1.2.1",
+            "project": {
+                "name": "project1",
+                "description": "sample description",
+                "options": {
+                    "group": "group name",
+                    "artifactId": "Id of artifact",
+                    "version": "vesion number"
+                }
+            },
+            "dependencies": [
+                "selected dependency 1",
+                "selected dependency 2",
+                "selected dependency 3"
+            ]
+        }
+        path = PomXMLTemplate(json_data).xml_file()
+        return send_file(path,
+                         attachment_filename=MANIFEST_FILE['maven'],
+                         as_attachment=True)
+        #  return send_file('../pom.xml',
+        #                   attachment_filename=MANIFEST_FILE['maven'],
+        #                   as_attachment=True)
+
     return app
