@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from generatepom import PomXMLTemplate
+from GenerateManifest import PomXMLTemplate
 from flask import send_file, request
 from instance.config import app_config
 from flask_cors import CORS, cross_origin
@@ -25,8 +25,7 @@ def create_app(config_name):
     @app.route('/generatefile', methods=['POST'])
     @cross_origin()
     def generatefile():
-        path = PomXMLTemplate(dict(request.get_json())).xml_file()
-        return send_file(path,
+        return send_file(PomXMLTemplate(request.get_json()).xml_file(),
                          attachment_filename=MANIFEST_FILE['maven'],
                          as_attachment=True)
 
@@ -34,7 +33,7 @@ def create_app(config_name):
     def testing():
         json_data = {
             "ecosystem": "maven",
-            "framework": "springboot or null",
+            "framework": "springboot",
             "version": "null or 1.2.1",
             "project": {
                 "name": "project1",
@@ -46,13 +45,12 @@ def create_app(config_name):
                 }
             },
             "dependencies": [
-                "selected dependency 1",
-                "selected dependency 2",
-                "selected dependency 3"
+                "Dependency1GroupID:Dpendency1ArtifactID:Dpendency1Version",
+                "Dependency2GroupID:Dpendency2ArtifactID",
+                "Dependency3"
             ]
         }
-        path = PomXMLTemplate(json_data).xml_file()
-        return send_file(path,
+        return send_file(PomXMLTemplate(json_data).xml_file(),
                          attachment_filename=MANIFEST_FILE['maven'],
                          as_attachment=True)
         #  return send_file('../pom.xml',
